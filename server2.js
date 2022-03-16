@@ -24,7 +24,16 @@ const collection_situations = 'situations'
 const collection_rooms = 'rooms'
 const allPictureFiles = getAllDirPhotoFiles(photo_dir,fs)
 
-let clients = []
+let rooms = []
+
+function is_room_already_exist(rooms,room) {
+    for (let value of rooms){
+        if (value.room_name == room){
+            return false
+        }
+    }
+    return true
+}
 
 app.use(express.static(__dirname + "/page"));
 app.post("/get_values",jsonParser, async function (request, response) {
@@ -34,8 +43,16 @@ app.post("/get_values",jsonParser, async function (request, response) {
 
     await client.connect()
 
-
-
+    //Тут надо будет на монго перенести, сам ебись
+    if (is_room_already_exist(rooms,request.body.room_name)) {
+        rooms.push(
+            {
+                room_name: request.body.room_name,
+                players: [],
+            }
+        )
+        console.log(rooms);
+    }
     await client.db().collection(collection_situations).find({'id': {$in: different_nums(await client.db().collection(collection_situations).countDocuments(),request.body.sit_count,rand_int)}}).toArray(async (err, results) => {
         //console.log(results)
         //response.json(results);  //RESPONSE!!!
@@ -75,14 +92,8 @@ app.listen(PORT, () => console.log("Сервер работает"));
 wsServer.on('connection', onConnect);
 
 function onConnect(wsClient) {
-    clients.push(wsClient);
-
-    for (element of clients){
-        element.send("New Connection")
-    }
 
     console.log('Новый пользователь');
-    wsClient.send('Привет');
 
 
     wsClient.on('close', function() {
@@ -93,10 +104,17 @@ function onConnect(wsClient) {
     wsClient.on('message', function(message) {
         try {
             const jsonMessage = JSON.parse(message);
-
             switch (jsonMessage.action) {
                 case 'connect_to_room':
-                    wsClient.send(jsonMessage.data);
+                    if(!is_room_already_exist(rooms,jsonMessage.data)){
+                        for (let value of rooms){
+                            if (value.room_name == jsonMessage.data){
+                                value.players.push(wsClient);
+                                console.log(rooms);
+                                wsClient.send(jsonMessage.data);
+                            }
+                        }
+                    }
                     break;
                 default:
                     console.log('Неизвестная команда');

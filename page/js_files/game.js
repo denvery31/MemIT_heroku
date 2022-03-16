@@ -18,6 +18,7 @@ function send_room_data(){
         card_count: document.getElementById("card_count").value,
         sit_count: document.getElementById("sit_count").value,
         nicknames: document.getElementById("nicknames").value,
+        room_name: document.getElementById("room_name_to_send").value,
     };
     req_func(room_settings,"/get_values");
 }
@@ -25,15 +26,23 @@ function send_room_data(){
 function connect_to_room(){
     let room_name = document.getElementById("room_name").value;
     const myWs = new WebSocket('ws://localhost:9000');
+
+
     myWs.onopen = function () {
         console.log('подключился');
         myWs.send(JSON.stringify({action: 'connect_to_room', data: room_name.toString()}));
     };
+
+
     myWs.onmessage = function (message) {
-        if (message.data == "New Connection"){
-            alert(message.data);
-        }else {
-            console.log('Message:', message.data);
+        switch (message.data) {
+            case "New Connection":
+                alert(message.data);
+                break;
+            default:
+                console.log('connected to:', message.data);
+                break;
+
         }
     };
 }
