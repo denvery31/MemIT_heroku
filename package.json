@@ -13,6 +13,12 @@
     "db": "^3.3.1",
     "express": "^4.17.3",
     "mongo": "^0.1.0",
-    "mongoose": "^6.2.5"
+    "mongoose": "^6.2.5",
+    "socket.io": "^4.4.1",
+    "ws": "^8.5.0",
+    "wss": "^0.0.2"
+  },
+  "optionalDependencies": {
+    "utf-8-validate": "^5.0.9"
   }
 }

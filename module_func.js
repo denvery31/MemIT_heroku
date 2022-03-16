@@ -1,7 +1,6 @@
-exports.generatorCode = length => {
-    return Array(length).fill('x').join('').replace(/x/g, () => {
-        return String.fromCharCode(Math.floor(Math.random() * 26) + 65)
-    })
+const e = require("express");
+exports.generatorCode = () => {
+    return `f${(~~(Math.random()*1e8)).toString(16)}`
 }
 
 exports.rand_int = (min, max) => {
@@ -26,15 +25,22 @@ exports.different_nums = (max,count,rand_int)=>{
 }
 
 
-exports.generatorNotExist = async (length,generatorCode,client,collection_rooms)=>{
-    var attemp = generatorCode(length)
+exports.generatorNotExist = async (generatorCode,client,collection_rooms)=>{
+    var attemp = generatorCode()
     //await client.connect();
 
     if (! !!await client.db().collection(collection_rooms).findOne({code: attemp})){ //if attemp exist !!db.req == true \\   !! to bool
         return attemp
     } else {
         //console.log(`exist: ${attemp}`)
-        return generatorNotExist(length)
+        return generatorNotExist(generatorCode,client,collection_rooms)
+    }
+}
+exports.isRoomAlreadyExist = async(client,collection_rooms)=>{
+    if (! !!await client.db().collection(collection_rooms).findOne({code: attemp})){ //if attemp exist !!db.req == true \\   !! to bool
+        return true
+    }else{
+        return false
     }
 }
 
