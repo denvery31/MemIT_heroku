@@ -82,7 +82,9 @@ app.post("/get_values",jsonParser, async function (request, response) {
         }
 
         await response.json(answer);
+
     });
+
 
 });
 
@@ -126,4 +128,4 @@ function onConnect(wsClient) {
     });
 }
 
-console.log('Сервер запущен на 9000 порту');
+console.log('Вебсокет запущен на 9000 порту');

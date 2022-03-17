@@ -11,7 +11,6 @@ async function req_func(data_to_send,link) {
     console.log(result);
 }
 
-
 function send_room_data(){
     let room_settings = {
         player_count: document.getElementById("player_count").value,
@@ -21,6 +20,7 @@ function send_room_data(){
         room_name: document.getElementById("room_name_to_send").value,
     };
     req_func(room_settings,"/get_values");
+    window.location.href = "room_connection.html";
 }
 
 function connect_to_room(){
