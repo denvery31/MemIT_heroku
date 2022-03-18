@@ -1,8 +1,8 @@
-async function req_func(data_to_send,link) {
+async function req_func(data_to_send, link) {
     let response = await fetch(link, {
         method: 'POST',
         headers: {
-            'Content-Type':'application/json;charset=utf-8'
+            'Content-Type': 'application/json;charset=utf-8'
         },
         body: JSON.stringify(data_to_send)
     });
@@ -11,7 +11,7 @@ async function req_func(data_to_send,link) {
     console.log(result);
 }
 
-function send_room_data(){
+function send_room_data() {
     let room_settings = {
         player_count: document.getElementById("player_count").value,
         card_count: document.getElementById("card_count").value,
@@ -19,18 +19,20 @@ function send_room_data(){
         nicknames: document.getElementById("nicknames").value,
         room_name: document.getElementById("room_name_to_send").value,
     };
-    req_func(room_settings,"/get_values");
+    req_func(room_settings, "/get_values");
     window.location.href = "room_connection.html";
 }
 
-function connect_to_room(){
+function connect_to_room() {
     let room_name = document.getElementById("room_name").value;
+    let player_name = document.getElementById("player_name").value;
+
     const myWs = new WebSocket('ws://localhost:9000');
 
 
     myWs.onopen = function () {
         console.log('подключился');
-        myWs.send(JSON.stringify({action: 'connect_to_room', data: room_name.toString()}));
+        myWs.send(JSON.stringify({ action: 'connect_to_room', code: room_name.toString(), name: player_name.toString() }));
     };
 
 
