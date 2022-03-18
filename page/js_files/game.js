@@ -16,8 +16,6 @@ function send_room_data() {
         player_count: document.getElementById("player_count").value,
         card_count: document.getElementById("card_count").value,
         sit_count: document.getElementById("sit_count").value,
-        nicknames: document.getElementById("nicknames").value,
-        room_name: document.getElementById("room_name_to_send").value,
     };
     req_func(room_settings, "/get_values");
     window.location.href = "room_connection.html";
@@ -31,8 +29,8 @@ function connect_to_room() {
 
 
     myWs.onopen = function () {
-        console.log('подключился');
         myWs.send(JSON.stringify({ action: 'connect_to_room', code: room_name.toString(), name: player_name.toString() }));
+        console.log('подключился');
     };
 
 

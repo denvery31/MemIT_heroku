@@ -1,4 +1,3 @@
-const e = require("express");
 exports.generatorCode = () => {
     return `f${(~~(Math.random() * 1e8)).toString(16)}`
 }

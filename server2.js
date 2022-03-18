@@ -4,12 +4,13 @@ const app = express();
 const WebSocket = require('ws');
 const wsServer = new WebSocket.Server({ port: 9000 });
 
-const PORT = process.env.PORT || 3000
-const jsonParser = express.json()
-const fs = require('fs');
-
 const { MongoClient } = require('mongodb')
 const client = new MongoClient('mongodb+srv://kaelovek:letmekeepitsecret@cluster0.y4hpw.mongodb.net/memesituations?retryWrites=true&w=majority')
+
+const fs = require('fs');
+
+const PORT = process.env.PORT || 3000
+const jsonParser = express.json()
 
 const { generatorCode } = require('./module_func')
 const { different_nums } = require('./module_func')
@@ -17,24 +18,14 @@ const { rand_int } = require('./module_func')
 const { generatorNotExist } = require('./module_func')
 const { getAllDirPhotoFiles } = require('./module_func')
 const { card_gen } = require('./module_func')
-const { isRoomAlreadyExist } = require('./module_func')
 
 const photo_dir = './page/images_library'
 const collection_situations = 'situations'
 const collection_rooms = 'rooms'
 const allPictureFiles = getAllDirPhotoFiles(photo_dir, fs)
 
-let rooms = []
-
-function is_room_already_exist(rooms, room) {
-    for (let value of rooms) {
-        if (value.room_name == room) {
-            return false
-        }
-    }
-    return true
-}
 client.connect()
+
 app.use(express.static(__dirname + "/page"));
 app.post("/get_values", jsonParser, async function (request, response) {
     if (!request.body) return response.sendStatus(400);
@@ -75,6 +66,7 @@ app.post("/get_values", jsonParser, async function (request, response) {
     })
 
 })
+
 app.listen(PORT, () => console.log("Сервер работает"));
 
 
@@ -82,7 +74,7 @@ wsServer.on('connection', onConnect);
 
 function onConnect(wsClient) {
 
-    console.log('Новый пользователь');
+    console.log('Новый запрос');
 
 
     wsClient.on('close', function () {
@@ -123,9 +115,7 @@ function onConnect(wsClient) {
                     roomVariants()
                     // jsonMessage.code --> room id
                     // jsonMessage.name --> p name add
-
                     //wsClient --> add
-
                     break;
                 default:
                     console.log('Неизвестная команда');
@@ -136,5 +126,3 @@ function onConnect(wsClient) {
         }
     });
 }
-
-console.log('Вебсокет запущен на 9000 порту');
