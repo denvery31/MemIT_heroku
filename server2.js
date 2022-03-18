@@ -48,7 +48,7 @@ app.post("/get_values", jsonParser, async function (request, response) {
             }
             return dataToReturn
         }
-        //await client.connect()
+        await client.connect()
         await client.db().collection(collection_situations).find({ 'id': { $in: different_nums(await client.db().collection(collection_situations).countDocuments(), request.body.sit_count, rand_int) } }).toArray(async (err, results) => {
 
             resolve(await answ(results))
@@ -59,7 +59,7 @@ app.post("/get_values", jsonParser, async function (request, response) {
 
             const room_creation = async () => {
                 return {
-                    code: await generatorNotExist(code_length, generatorCode, client, collection_rooms),
+                    code: await generatorNotExist(generatorCode, client, collection_rooms),
                     playersCount: Number(request.body.player_count),
                     players: [],
                     situations: data,
@@ -70,8 +70,8 @@ app.post("/get_values", jsonParser, async function (request, response) {
         })
     }).then(async (data) => {
         client.db().collection(collection_rooms).insertOne(data)
-        console.log(data)
         response.json(data)
+
     })
 
 })
@@ -95,15 +95,34 @@ function onConnect(wsClient) {
             const jsonMessage = JSON.parse(message);
             switch (jsonMessage.action) {
                 case 'connect_to_room':
-                    // let roomVariants = async ()=>{
-                    //     await client.
-                    //     // switch ('a'){
-
-                    //     // }    
-                    // }
-                    //roomVariants()
+                    let roomVariants = async () => {
+                        let room = await client.db().collection(collection_rooms).findOne({ code: jsonMessage.code })
+                        if (!!room) {
+                            let players = room.players
+                            if (players.length === room.playersCount) {
+                                console.log('room already  fool lel -- =_=')
+                            } else {
+                                console.log(`cards: ${room.cards[players.length]}`)
+                                players.push(
+                                    {
+                                        name: jsonMessage.name,
+                                        wsClient: wsClient
+                                    })
+                                await client.db().collection(collection_rooms).updateOne(
+                                    { code: room.code },
+                                    {
+                                        $set: {
+                                            players: players
+                                        }
+                                    })
+                            }
+                        } else {
+                            console.log('room not  exists 404 -- 0_0')
+                        }
+                    }
+                    roomVariants()
                     // jsonMessage.code --> room id
-                    // jsonMessage.name --> p name
+                    // jsonMessage.name --> p name add
 
                     //wsClient --> add
 
