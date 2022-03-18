@@ -126,3 +126,5 @@ function onConnect(wsClient) {
         }
     });
 }
+
+console.log('new href: http://localhost:3000/room_connection.html')
