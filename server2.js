@@ -48,7 +48,7 @@ app.post("/get_values", jsonParser, async function (request, response) {
 
             const room_creation = async () => {
                 return {
-                    code: await generatorNotExist(code_length, generatorCode, client, collection_rooms),
+                    code: await generatorNotExist(generatorCode, client, collection_rooms),
                     playersCount: Number(request.body.player_count),
                     players: [],
                     situations: data,
