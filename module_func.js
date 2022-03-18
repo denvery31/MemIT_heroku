@@ -10,13 +10,13 @@ exports.rand_int = (min, max) => {
     return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
 }
 
-exports.different_nums = (max,count,rand_int)=>{
-    var nums =[];
+exports.different_nums = (max, count, rand_int) => {
+    var nums = [];
     var is_it;
-    for (var i=0; i<count; i++){
-        is_it = rand_int(1,max+1);
-        if (nums.includes(is_it)){
-            i-=1;
+    for (var i = 0; i < count; i++) {
+        is_it = rand_int(1, max + 1);
+        if (nums.includes(is_it)) {
+            i -= 1;
         } else {
             nums.push(is_it)
         }
@@ -26,89 +26,89 @@ exports.different_nums = (max,count,rand_int)=>{
 }
 
 
-exports.generatorNotExist = async (length,generatorCode,client,collection_rooms)=>{
+exports.generatorNotExist = async (length, generatorCode, client, collection_rooms) => {
     var attemp = generatorCode(length)
     //await client.connect();
 
-    if (! !!await client.db().collection(collection_rooms).findOne({code: attemp})){ //if attemp exist !!db.req == true \\   !! to bool
+    if (! !!await client.db().collection(collection_rooms).findOne({ code: attemp })) { //if attemp exist !!db.req == true \\   !! to bool
         return attemp
     } else {
         //console.log(`exist: ${attemp}`)
-        return generatorNotExist(length)
+        return generatorNotExist(length, generatorCode, client, collection_rooms)
     }
 }
 
 
-exports.getAllDirPhotoFiles = (dirPath,fs) => {
+exports.getAllDirPhotoFiles = (dirPath, fs) => {
 
     files = fs.readdirSync(dirPath)
 
-    arrayOfFiles =  []
+    arrayOfFiles = []
 
     files.forEach(function (file) {
 
-        if (['.png','.jpg','jpeg'].includes(file.slice(-4))) {
+        if (['.png', '.jpg', 'jpeg'].includes(file.slice(-4))) {
             arrayOfFiles.push(file)
         }
     })
     return arrayOfFiles
 }
 
-exports.card_gen = (players_count, need_cards, img_files,rand_int) => {
+exports.card_gen = (players_count, need_cards, img_files, rand_int) => {
 
     var cards = [];
     var player_cards = [];
 
-    for (let i = 0; i < players_count ; i++) {
-        for (let j =0; j< need_cards; j++){
+    for (let i = 0; i < players_count; i++) {
+        for (let j = 0; j < need_cards; j++) {
             var card_id = rand_int(0, img_files.length);
 
-            if (cards.includes(img_files[card_id]) ){
+            if (cards.includes(img_files[card_id])) {
                 j -= 1;
             } else {
                 cards.push(img_files[card_id])
             }
 
         }
-        player_cards.push(cards.slice(i*need_cards, i*need_cards + need_cards));
+        player_cards.push(cards.slice(i * need_cards, i * need_cards + need_cards));
 
     }
 
     return player_cards
 }
 
-exports.getAllDirPhotoFiles = (dirPath,fs) => {
+exports.getAllDirPhotoFiles = (dirPath, fs) => {
 
     files = fs.readdirSync(dirPath)
 
-    arrayOfFiles =  []
+    arrayOfFiles = []
 
     files.forEach(function (file) {
 
-        if (['.png','.jpg','jpeg'].includes(file.slice(-4))) {
+        if (['.png', '.jpg', 'jpeg'].includes(file.slice(-4))) {
             arrayOfFiles.push(file)
         }
     })
     return arrayOfFiles
 }
 
-exports.card_gen = (players_count, need_cards, img_files,rand_int) => {
+exports.card_gen = (players_count, need_cards, img_files, rand_int) => {
 
     var cards = [];
     var player_cards = [];
 
-    for (let i = 0; i < players_count ; i++) {
-        for (let j =0; j< need_cards; j++){
+    for (let i = 0; i < players_count; i++) {
+        for (let j = 0; j < need_cards; j++) {
             var card_id = rand_int(0, img_files.length);
 
-            if (cards.includes(img_files[card_id]) ){
+            if (cards.includes(img_files[card_id])) {
                 j -= 1;
             } else {
                 cards.push(img_files[card_id])
             }
 
         }
-        player_cards.push(cards.slice(i*need_cards, i*need_cards + need_cards));
+        player_cards.push(cards.slice(i * need_cards, i * need_cards + need_cards));
 
     }
 
