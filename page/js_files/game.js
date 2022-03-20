@@ -18,7 +18,7 @@ function send_room_data() {
         sit_count: document.getElementById("sit_count").value,
     };
     req_func(room_settings, "/get_values");
-    window.location.href = "room_connection.html";
+    vueApp.goToConnection();
 }
 
 function connect_to_room() {
@@ -30,7 +30,6 @@ function connect_to_room() {
 
     myWs.onopen = function () {
         myWs.send(JSON.stringify({ action: 'connect_to_room', code: room_name.toString(), name: player_name.toString() }));
-        console.log('подключился');
     };
 
 

@@ -74,8 +74,8 @@ wsServer.on('connection', onConnect);
 
 function onConnect(wsClient) {
 
-    console.log('Новый запрос');
-
+    console.log('Новое подключение');
+    console.log(wsClient);
 
     wsClient.on('close', function () {
         console.log('Пользователь отключился');
@@ -126,5 +126,3 @@ function onConnect(wsClient) {
         }
     });
 }
-
-console.log('new href: http://localhost:3000/room_connection.html')
