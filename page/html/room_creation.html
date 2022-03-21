@@ -9,7 +9,7 @@
 <script src="../js_files/game.js"></script>
 <body>
 <div id = "app">
-    <div v-show="visible">
+    <div v-show="visible_first">
         <label>Player count:</label><br>
         <input type="number" min="2" max="5" value="3" id="player_count"><br><br>
 
@@ -23,7 +23,7 @@
     </div>
 
 
-    <div v-show="!visible">
+    <div v-show="visible_second">
         <label>connect to the room,room code:</label><br>
         <input type="text" id="room_name" value="default_room"><br><br>
 
@@ -36,11 +36,12 @@
 <script>
     const app = Vue.createApp({
         data() {
-            return {visible: true}
+            return {visible_first: true,visible_second: false}
         },
         methods: {
             go_to_connection() {
-                this.visible = false;
+                this.visible_first = false;
+                this.visible_second = true;
             }
         }
     }).mount('#app');
