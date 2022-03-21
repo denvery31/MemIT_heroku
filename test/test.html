@@ -6,38 +6,17 @@
 </head>
 <body>
 <div id="app">
-    <div v-html="message"></div>
+    <div v-show="visible">
+        <h2>Заголовок</h2>
+        <p>Текст</p>
+    </div>
+    <button v-on:click="visible=!visible">{{visible?'Скрыть':'Отобразить'}}</button>
 </div>
 <script src="https://unpkg.com/vue@next"></script>
 <script>
-    const vueApp = Vue.createApp({
-        data(){
-            return { message:
-                    '<label>Player count:</label><br>\n' +
-                    '<input type="number" min="2" max="5" value="3" id="player_count"><br><br>\n' +
-                    '\n' +
-                    '<label>Card count:</label><br>\n' +
-                    '<input type="number" min="4" max="7" value="4" id="card_count"><br><br>\n' +
-                    '\n' +
-                    '<label>Situation count:</label><br>\n' +
-                    '<input type="number" min="1" max="4" value="3" id="sit_count"><br><br>\n' +
-                    '\n' +
-                    '<input type="submit" value="Make room" onclick="vueApp.goToConnection()"><br><br>'}
-        },
-        methods:{
-            goToConnection(){
-                this.message =
-                    '<label>connect to the room,room code:</label><br>\n' +
-                    '\n' +
-                    '<input type="text" id="room_name" value="default_room"><br><br>\n' +
-                    '\n' +
-                    '<label>NickName:</label><br>\n' +
-                    '\n' +
-                    '<input type="text" id="player_name" value="den"><br><br>\n' +
-                    '\n' +
-                    '<input type="submit" value="connect" onclick="connect_to_room()"><br><br>';
-
-            },
+    const app = Vue.createApp({
+        data() {
+            return { visible: true}
         }
     }).mount('#app');
 </script>

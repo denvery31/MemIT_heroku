@@ -18,7 +18,7 @@ function send_room_data() {
         sit_count: document.getElementById("sit_count").value,
     };
     req_func(room_settings, "/get_values");
-    vueApp.goToConnection();
+    app.go_to_connection();
 }
 
 function connect_to_room() {
