@@ -75,7 +75,6 @@ wsServer.on('connection', onConnect);
 function onConnect(wsClient) {
 
     console.log('Новое подключение');
-    console.log(wsClient);
 
     wsClient.on('close', function () {
         console.log('Пользователь отключился');
@@ -92,9 +91,9 @@ function onConnect(wsClient) {
                         if (!!room) {
                             let players = room.players
                             if (players.length === room.playersCount) {
-                                console.log('room already  fool lel -- =_=')
+                                wsClient.send(JSON.stringify({action:message,message:'room already  fool lel -- =_='}));
                             } else {
-                                console.log(`cards: ${room.cards[players.length]}`)
+                                wsClient.send(JSON.stringify({action:message,message:`cards: ${room.cards[players.length]}`}))
                                 players.push(
                                     {
                                         name: jsonMessage.name,
@@ -109,13 +108,16 @@ function onConnect(wsClient) {
                                     })
                             }
                         } else {
-                            console.log('room not  exists 404 -- 0_0')
+                            wsClient.send(JSON.stringify({action:message,message:'room not  exists 404 -- 0_0'}))
                         }
                     }
                     roomVariants()
                     // jsonMessage.code --> room id
                     // jsonMessage.name --> p name add
                     //wsClient --> add
+                    break;
+                case 'disconnect':
+                    console.log(jsonMessage.room_name);
                     break;
                 default:
                     console.log('Неизвестная команда');
