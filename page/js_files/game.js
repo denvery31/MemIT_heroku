@@ -1,9 +1,9 @@
-const myWs = new WebSocket('ws://localhost:9000');
+const myWs = new WebSocket('ws://memitgame.herokuapp.com:9000');
 
 let game_data = {
-    cards:"",
-    room_code:"",
-    nicknames:"",
+    cards: "",
+    room_code: "",
+    nicknames: "",
 }
 
 async function req_func(data_to_send, link) {
@@ -28,9 +28,9 @@ function send_room_data() {
     req_func(room_settings, "/get_values");
     app.go_to_connection();
 }
-window.onbeforeunload=wsClose;
-function wsClose(){
-    myWs.send(JSON.stringify({ action: 'disconnect',room_name:game_data.room_code}));
+window.onbeforeunload = wsClose;
+function wsClose() {
+    myWs.send(JSON.stringify({ action: 'disconnect', room_name: game_data.room_code }));
 }
 function connect_to_room() {
     let room_name = document.getElementById("room_name").value;
