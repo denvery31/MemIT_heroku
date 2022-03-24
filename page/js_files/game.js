@@ -1,4 +1,4 @@
-const myWs = new WebSocket('ws://memitgame.herokuapp.com:9000');
+const myWs = new WebSocket('ws://memitgame.herokuapp.com:9000/server2.js');
 
 let game_data = {
     cards: "",
