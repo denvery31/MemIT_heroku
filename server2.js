@@ -1,6 +1,5 @@
 const express = require("express");
 const app = express();
-
 const WebSocket = require('ws');
 const wsServer = new WebSocket.Server({ port: 9000 });
 
@@ -91,9 +90,9 @@ function onConnect(wsClient) {
                         if (!!room) {
                             let players = room.players
                             if (players.length === room.playersCount) {
-                                wsClient.send(JSON.stringify({action:message,message:'room already  fool lel -- =_='}));
+                                wsClient.send(JSON.stringify({ action: message, message: 'room already  fool lel -- =_=' }));
                             } else {
-                                wsClient.send(JSON.stringify({action:message,message:`cards: ${room.cards[players.length]}`}))
+                                wsClient.send(JSON.stringify({ action: message, message: `cards: ${room.cards[players.length]}` }))
                                 players.push(
                                     {
                                         name: jsonMessage.name,
@@ -108,7 +107,7 @@ function onConnect(wsClient) {
                                     })
                             }
                         } else {
-                            wsClient.send(JSON.stringify({action:message,message:'room not  exists 404 -- 0_0'}))
+                            wsClient.send(JSON.stringify({ action: message, message: 'room not  exists 404 -- 0_0' }))
                         }
                     }
                     roomVariants()
