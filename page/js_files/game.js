@@ -1,4 +1,5 @@
-const myWs = new WebSocket('ws://localhost:9000');
+let HOST = location.origin.replace(/^http/, 'ws')
+let myWs = new WebSocket(HOST);
 
 let game_data = {
     cards:"",
